@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kirasb-v3';
+const CACHE_NAME = 'kirasb-v4';
 const ASSETS = [
   './',
   './index.html',
@@ -25,7 +25,12 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
+  const reqUrl = new URL(event.request.url);
+  if (reqUrl.origin !== self.location.origin) return;
+
   event.respondWith(
-    caches.match(event.request).then((cached) => cached || fetch(event.request))
+    caches
+      .match(event.request, { ignoreSearch: true })
+      .then((cached) => cached || fetch(event.request))
   );
 });

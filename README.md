@@ -45,5 +45,20 @@ python -m http.server 8080
 
 Kemudian buka `http://localhost:8080` (atau port yang dipaparkan) di pelayar anda.
 
+## Langkah ke Produksi (*Production Deployment*)
+1. **Kemas kini Domain SEO:**
+   Gantikan `https://kirasb.example.com/` di dalam `robots.txt` dan `sitemap.xml` dengan domain sebenar anda. Tambah juga `<link rel="canonical" href="https://domain-anda.com/" />` dalam `index.html`.
+2. **Gantikan Tailwind Play CDN (Disyorkan untuk Produksi):**
+   * Pasang Tailwind CLI secara setempat atau melalui `npx`:
+     ```bash
+     npx tailwindcss -i ./css/styles.css -o ./css/tailwind.min.css --minify
+     ```
+   * Buang `<script src="https://cdn.tailwindcss.com" ...></script>` dalam `index.html` dan pautkan `./css/tailwind.min.css`.
+3. **Muat Naik ke Hos Statik (Percuma):**
+   * **GitHub Pages:** Pergi ke *Settings → Pages*, pilih branch `main` dan folder `/ (root)`.
+   * **Cloudflare Pages / Vercel / Netlify:** Sambungkan repositori GitHub ini, biarkan *Build Command* kosong, dan tetapkan *Output Directory* kepada `.` (root).
+4. **Sahkan HTTPS & PWA:**
+   Pastikan laman diakses melalui **HTTPS** supaya Service Worker (`sw.js`), ciri *Add to Home Screen* (PWA), dan `navigator.share` berfungsi dengan sempurna.
+
 ## Penafian
 KiraASB ialah kalkulator bebas dan tidak rasmi. Ia tidak mempunyai kaitan dengan **Amanah Saham Nasional Berhad (ASNB)** atau **Permodalan Nasional Berhad (PNB)**. Semua pengiraan adalah anggaran untuk tujuan pendidikan dan perancangan kewangan sahaja.

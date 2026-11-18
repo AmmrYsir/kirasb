@@ -91,7 +91,8 @@ function kiraAsbApp() {
     },
 
     t(key) {
-      return I18N[this.lang]?.[key] || I18N.ms[key] || key;
+      const dict = Object.hasOwn(I18N, this.lang) ? I18N[this.lang] : I18N.ms;
+      return (Object.hasOwn(dict, key) && dict[key]) || I18N.ms[key] || key;
     },
 
     toggleLang() {
@@ -99,19 +100,37 @@ function kiraAsbApp() {
     },
 
     onInputChange() {
+      this.rate = this.clampNum(this.rate, 0.5, 15, 5.75);
+      this.years = Math.round(this.clampNum(this.years, 1, 30, 10));
       this.saveState();
       this.renderChart();
     },
 
     loadState() {
-      const params = new URLSearchParams(window.location.search);
-      const saved = JSON.parse(localStorage.getItem('kirasb_state') || '{}');
+      const hashStr = window.location.hash.startsWith('#')
+        ? window.location.hash.slice(1)
+        : '';
+      const params = new URLSearchParams(hashStr || window.location.search);
 
-      this.lang = params.get('lang') || saved.lang || 'ms';
-      this.initialSavings = this.clampNum(params.get('init') ?? saved.initialSavings ?? 5000, 0, 1000000);
-      this.monthlyDeposit = this.clampNum(params.get('monthly') ?? saved.monthlyDeposit ?? 300, 0, 50000);
-      this.rate = this.clampNum(params.get('rate') ?? saved.rate ?? 5.75, 0.5, 15);
-      this.years = this.clampNum(params.get('years') ?? saved.years ?? 10, 1, 35);
+      let saved = {};
+      try {
+        saved = JSON.parse(localStorage.getItem('kirasb_state') || '{}') || {};
+      } catch (_) {
+        saved = {};
+      }
+
+      const rawLang = params.get('lang') || saved.lang || 'ms';
+      this.lang = ['ms', 'en'].includes(rawLang) ? rawLang : 'ms';
+
+      const getParam = (key) => {
+        const val = params.get(key);
+        return val !== null && val !== '' ? val : undefined;
+      };
+
+      this.initialSavings = this.clampNum(getParam('init') ?? saved.initialSavings, 0, 1000000, 5000);
+      this.monthlyDeposit = this.clampNum(getParam('monthly') ?? saved.monthlyDeposit, 0, 50000, 300);
+      this.rate = this.clampNum(getParam('rate') ?? saved.rate, 0.5, 15, 5.75);
+      this.years = Math.round(this.clampNum(getParam('years') ?? saved.years, 1, 30, 10));
       if (params.has('reinvest')) {
         this.reinvest = params.get('reinvest') !== '0';
       } else if (typeof saved.reinvest === 'boolean') {
@@ -120,17 +139,21 @@ function kiraAsbApp() {
     },
 
     saveState() {
-      localStorage.setItem(
-        'kirasb_state',
-        JSON.stringify({
-          lang: this.lang,
-          initialSavings: Number(this.initialSavings) || 0,
-          monthlyDeposit: Number(this.monthlyDeposit) || 0,
-          rate: Number(this.rate) || 0,
-          years: Number(this.years) || 1,
-          reinvest: Boolean(this.reinvest)
-        })
-      );
+      try {
+        localStorage.setItem(
+          'kirasb_state',
+          JSON.stringify({
+            lang: this.lang,
+            initialSavings: this.clampNum(this.initialSavings, 0, 1000000, 0),
+            monthlyDeposit: this.clampNum(this.monthlyDeposit, 0, 50000, 0),
+            rate: this.clampNum(this.rate, 0.5, 15, 5.75),
+            years: Math.round(this.clampNum(this.years, 1, 30, 10)),
+            reinvest: Boolean(this.reinvest)
+          })
+        );
+      } catch (_) {
+        // Ignore storage quota or private browsing errors
+      }
     },
 
     resetDefaults() {
@@ -143,20 +166,22 @@ function kiraAsbApp() {
     },
 
     async shareCalculation() {
-      const url = new URL(window.location.href);
-      url.searchParams.set('init', this.initialSavings);
-      url.searchParams.set('monthly', this.monthlyDeposit);
-      url.searchParams.set('rate', this.rate);
-      url.searchParams.set('years', this.years);
-      url.searchParams.set('reinvest', this.reinvest ? '1' : '0');
-      url.searchParams.set('lang', this.lang);
+      const shareParams = new URLSearchParams();
+      shareParams.set('init', this.initialSavings);
+      shareParams.set('monthly', this.monthlyDeposit);
+      shareParams.set('rate', this.rate);
+      shareParams.set('years', this.years);
+      shareParams.set('reinvest', this.reinvest ? '1' : '0');
+      shareParams.set('lang', this.lang);
+
+      const shareUrl = `${window.location.origin}${window.location.pathname}#${shareParams.toString()}`;
 
       if (navigator.share) {
         try {
           await navigator.share({
             title: 'KiraASB — Unjuran Simpanan ASB',
             text: `Anggaran baki ASB selepas ${this.years} tahun: ${this.formatRM(this.summary.finalBalance)}`,
-            url: url.toString()
+            url: shareUrl
           });
           return;
         } catch (_) {
@@ -164,14 +189,19 @@ function kiraAsbApp() {
         }
       }
 
-      await navigator.clipboard.writeText(url.toString());
-      this.copiedToast = true;
-      setTimeout(() => (this.copiedToast = false), 2200);
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        this.copiedToast = true;
+        setTimeout(() => (this.copiedToast = false), 2200);
+      } catch (_) {
+        // Clipboard permission denied or unavailable
+      }
     },
 
-    clampNum(val, min, max) {
+    clampNum(val, min, max, fallback = min) {
+      if (val === null || val === undefined || val === '') return fallback;
       const n = Number(val);
-      if (Number.isNaN(n)) return min;
+      if (!Number.isFinite(n)) return fallback;
       return Math.min(Math.max(n, min), max);
     },
 
@@ -247,10 +277,10 @@ function kiraAsbApp() {
     },
 
     get breakdown() {
-      const init = Math.max(0, Number(this.initialSavings) || 0);
-      const monthly = Math.max(0, Number(this.monthlyDeposit) || 0);
-      const annualRate = Math.max(0, Number(this.rate) || 0) / 100;
-      const totalYears = Math.max(1, Math.min(35, Math.round(Number(this.years) || 1)));
+      const init = this.clampNum(this.initialSavings, 0, 1000000, 0);
+      const monthly = this.clampNum(this.monthlyDeposit, 0, 50000, 0);
+      const annualRate = this.clampNum(this.rate, 0.5, 15, 5.75) / 100;
+      const totalYears = Math.round(this.clampNum(this.years, 1, 30, 10));
 
       const rows = [];
       let accountBalance = init;
