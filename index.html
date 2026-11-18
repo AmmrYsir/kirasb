@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>KiraASB — Kalkulator Dividen &amp; Simpanan ASB Bumiputera</title>
+  <meta
+    name="description"
+    content="Kira anggaran dividen, bonus, dan pertumbuhan simpanan Amanah Saham Bumiputera (ASB) anda dengan mudah. Kalkulator percuma, pantas, dan mesra telefon bimbit."
+  />
+  <meta
+    name="keywords"
+    content="kalkulator ASB, kira dividen ASB, ASB dividend calculator, simpanan ASB, sejarah dividen ASB, KiraASB"
+  />
+  <meta name="theme-color" content="#059669" />
+
+  <!-- Open Graph / WhatsApp / Social Preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="KiraASB — Kalkulator Dividen &amp; Simpanan ASB" />
+  <meta
+    property="og:description"
+    content="Kira anggaran dividen dan kuasa kompaun simpanan ASB anda secara masa nyata."
+  />
+  <meta property="og:locale" content="ms_MY" />
+
+  <link rel="manifest" href="./manifest.json" />
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23059669'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='800' font-size='26' fill='white'%3ERM%3C/text%3E%3C/svg%3E"
+  />
+  <link rel="stylesheet" href="./css/styles.css" />
+
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
+  <!-- App Logic & Alpine.js CDN -->
+  <script src="./js/app.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.3/dist/cdn.min.js" defer></script>
+
+  <!-- JSON-LD Structured Data for SEO -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "KiraASB",
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "Web",
+          "description": "Kalkulator simpanan dan anggaran dividen ASB Bumiputera untuk rakyat Malaysia."
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Bagaimanakah dividen ASB dikira?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Dividen ASB dikira berdasarkan purata Baki Minimum Bulanan (BMB) dari 1 haribulan hingga hujung bulan sepanjang tahun kewangan."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Adakah dividen ASB dikenakan cukai pendapatan?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Tidak. Pengagihan pendapatan (dividen dan bonus) ASB adalah dikecualikan daripada cukai pendapatan individu di Malaysia."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased" x-data="kiraAsbApp()">
+  <!-- Top App Bar -->
+  <header class="sticky top-0 z-30 border-b border-slate-200/80 bg-white/90 backdrop-blur-md">
+    <div class="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
+      <div class="flex items-center gap-2.5">
+        <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-600 text-sm font-extrabold text-white shadow-sm">
+          RM
+        </div>
+        <div>
+          <h1 class="text-base font-bold leading-tight text-slate-900">KiraASB</h1>
+          <p class="text-[11px] font-medium text-slate-500" x-text="t('appTagline')"></p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button
+          type="button"
+          @click="toggleLang()"
+          class="rounded-lg border border-slate-200 bg-slate-100 px-2.5 py-1.5 text-xs font-semibold text-slate-700 transition active:scale-95"
+          x-text="lang === 'ms' ? 'EN' : 'BM'"
+          aria-label="Tukar Bahasa"
+        ></button>
+        <button
+          type="button"
+          @click="shareCalculation()"
+          class="rounded-lg bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100 active:scale-95"
+          x-text="t('share')"
+        ></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Toast Notification -->
+  <div
+    x-show="copiedToast"
+    x-transition
+    x-cloak
+    class="fixed bottom-20 left-1/2 z-50 -translate-x-1/2 rounded-full bg-slate-900 px-4 py-2 text-xs font-medium text-white shadow-lg"
+    x-text="t('copied')"
+  ></div>
+
+  <main class="mx-auto max-w-4xl space-y-5 px-4 pt-4">
+    <!-- Hero Summary Card (App-like Sticky Feel) -->
+    <section
+      id="kalkulator"
+      class="rounded-2xl bg-gradient-to-br from-emerald-600 via-emerald-700 to-teal-800 p-5 text-white shadow-lg shadow-emerald-900/15"
+    >
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <p class="text-xs font-medium uppercase tracking-wider text-emerald-100" x-text="t('projectedBalance')"></p>
+          <p class="mt-1 text-3xl font-extrabold tracking-tight sm:text-4xl" x-text="formatRM(summary.finalBalance)"></p>
+        </div>
+        <button
+          type="button"
+          @click="resetDefaults()"
+          class="rounded-lg bg-white/15 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm transition hover:bg-white/25 active:scale-95"
+          x-text="t('reset')"
+        ></button>
+      </div>
+
+      <div class="mt-4 grid grid-cols-3 gap-2 border-t border-white/15 pt-3.5 text-left">
+        <div>
+          <p class="text-[11px] text-emerald-100" x-text="t('totalPrincipal')"></p>
+          <p class="mt-0.5 text-sm font-bold sm:text-base" x-text="formatRM(summary.totalPrincipal)"></p>
+        </div>
+        <div>
+          <p class="text-[11px] text-emerald-100" x-text="t('totalDividend')"></p>
+          <p class="mt-0.5 text-sm font-bold text-amber-300 sm:text-base" x-text="formatRM(summary.totalDividend)"></p>
+        </div>
+        <div>
+          <p class="text-[11px] text-emerald-100" x-text="t('firstYearDividend')"></p>
+          <p class="mt-0.5 text-sm font-bold sm:text-base" x-text="formatRM(summary.firstYearDividend)"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Calculator Inputs -->
+    <section class="space-y-5 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm">
+      <!-- Initial Savings -->
+      <div>
+        <div class="mb-2 flex items-center justify-between">
+          <label for="initialSavings" class="text-sm font-semibold text-slate-700" x-text="t('initialSavings')"></label>
+          <input
+            id="initialSavings"
+            type="text"
+            inputmode="decimal"
+            :value="formatInputNumber(initialSavings)"
+            @input="handleCurrencyInput('initialSavings', $event, 1000000)"
+            @blur="handleCurrencyBlur('initialSavings', $event)"
+            class="w-36 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-right text-sm font-bold text-slate-900 focus:border-emerald-500 focus:bg-white focus:outline-none"
+          />
+        </div>
+        <input type="range" min="0" max="200000" step="500" x-model.number="initialSavings" class="asb-slider" />
+      </div>
+
+      <!-- Monthly Top-up -->
+      <div>
+        <div class="mb-2 flex items-center justify-between">
+          <label for="monthlyDeposit" class="text-sm font-semibold text-slate-700" x-text="t('monthlyDeposit')"></label>
+          <input
+            id="monthlyDeposit"
+            type="text"
+            inputmode="decimal"
+            :value="formatInputNumber(monthlyDeposit)"
+            @input="handleCurrencyInput('monthlyDeposit', $event, 50000)"
+            @blur="handleCurrencyBlur('monthlyDeposit', $event)"
+            class="w-36 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-right text-sm font-bold text-slate-900 focus:border-emerald-500 focus:bg-white focus:outline-none"
+          />
+        </div>
+        <input type="range" min="0" max="5000" step="50" x-model.number="monthlyDeposit" class="asb-slider" />
+      </div>
+
+      <!-- Dividend Rate + Presets -->
+      <div>
+        <div class="mb-2 flex items-center justify-between">
+          <label for="dividendRate" class="text-sm font-semibold text-slate-700" x-text="t('dividendRate')"></label>
+          <input
+            id="dividendRate"
+            type="number"
+            inputmode="decimal"
+            min="0.5"
+            max="15"
+            step="0.05"
+            x-model.number="rate"
+            class="w-24 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-right text-sm font-bold text-emerald-700 focus:border-emerald-500 focus:bg-white focus:outline-none"
+          />
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <template x-for="preset in [4.25, 5.25, 5.75, 6.50]" :key="preset">
+            <button
+              type="button"
+              @click="rate = preset"
+              :class="Number(rate) === preset ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-slate-100 text-slate-700 border-slate-200'"
+              class="rounded-lg border px-3 py-1 text-xs font-semibold transition active:scale-95"
+              x-text="preset.toFixed(2) + '%'"
+            ></button>
+          </template>
+        </div>
+      </div>
+
+      <!-- Duration -->
+      <div>
+        <div class="mb-2 flex items-center justify-between">
+          <label for="years" class="text-sm font-semibold text-slate-700" x-text="t('durationYears')"></label>
+          <span class="rounded-lg bg-emerald-50 px-2.5 py-1 text-sm font-bold text-emerald-700" x-text="years + ' ' + t('year')"></span>
+        </div>
+        <input id="years" type="range" min="1" max="30" step="1" x-model.number="years" class="asb-slider" />
+      </div>
+
+      <!-- Reinvest Toggle -->
+      <div class="flex items-center justify-between rounded-xl bg-slate-50 p-3.5">
+        <div class="pr-3">
+          <p class="text-sm font-semibold text-slate-800" x-text="t('reinvestLabel')"></p>
+          <p class="text-xs text-slate-500" x-text="t('reinvestHint')"></p>
+        </div>
+        <button
+          type="button"
+          role="switch"
+          :aria-checked="reinvest"
+          @click="reinvest = !reinvest"
+          :class="reinvest ? 'bg-emerald-600' : 'bg-slate-300'"
+          class="relative inline-flex h-7 w-12 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200"
+        >
+          <span
+            :class="reinvest ? 'translate-x-5' : 'translate-x-0'"
+            class="pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow transition duration-200"
+          ></span>
+        </button>
+      </div>
+
+      <p class="text-[11px] leading-relaxed text-slate-500" x-text="t('assumeNote')"></p>
+    </section>
+
+    <!-- Growth Chart -->
+    <section id="carta" class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm">
+      <h2 class="mb-4 text-base font-bold text-slate-900" x-text="t('chartTitle')"></h2>
+      <div class="h-64 w-full sm:h-72">
+        <canvas id="asbChart"></canvas>
+      </div>
+    </section>
+
+    <!-- Yearly Breakdown Table -->
+    <section id="jadual" class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm">
+      <div class="mb-3 flex items-center justify-between">
+        <h2 class="text-base font-bold text-slate-900" x-text="t('breakdownTitle')"></h2>
+        <button
+          type="button"
+          x-show="breakdown.length > 5"
+          @click="showAllYears = !showAllYears"
+          class="text-xs font-semibold text-emerald-700 hover:underline"
+          x-text="showAllYears ? t('showLess') : t('showAll')"
+        ></button>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs sm:text-sm">
+          <thead>
+            <tr class="border-b border-slate-200 text-slate-500">
+              <th class="py-2 pr-2 font-semibold" x-text="t('year')"></th>
+              <th class="py-2 px-2 font-semibold" x-text="t('principal')"></th>
+              <th class="py-2 px-2 font-semibold" x-text="t('annualDiv')"></th>
+              <th class="py-2 pl-2 text-right font-semibold" x-text="t('endingBalance')"></th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <template x-for="row in visibleRows" :key="row.year">
+              <tr>
+                <td class="py-2.5 pr-2 font-semibold text-slate-700" x-text="row.year"></td>
+                <td class="py-2.5 px-2 text-slate-600" x-text="formatRM(row.principal)"></td>
+                <td class="py-2.5 px-2 font-medium text-emerald-600" x-text="formatRM(row.annualDividend)"></td>
+                <td class="py-2.5 pl-2 text-right font-bold text-slate-900" x-text="formatRM(row.endingBalance)"></td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SEO Content & FAQ Section -->
+    <section id="soalan" class="space-y-4 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm">
+      <h2 class="text-base font-bold text-slate-900">Soalan Lazim (FAQ) Simpanan ASB</h2>
+
+      <div class="divide-y divide-slate-100">
+        <div class="py-3">
+          <button
+            type="button"
+            @click="activeFaq = activeFaq === 0 ? null : 0"
+            class="flex w-full items-center justify-between text-left text-sm font-semibold text-slate-800"
+          >
+            <span>Bagaimanakah dividen ASB dikira setiap tahun?</span>
+            <span class="text-emerald-600" x-text="activeFaq === 0 ? '−' : '+'"></span>
+          </button>
+          <p x-show="activeFaq === 0" x-transition class="mt-2 text-xs leading-relaxed text-slate-600">
+            Dividen ASB dikira berdasarkan <strong>purata Baki Minimum Bulanan (BMB)</strong> dari 1 haribulan hingga hujung bulan bagi setiap 12 bulan tahun kewangan. Sebab itulah menyimpan sebelum atau pada 1 haribulan memberi kesan maksimum kepada dividen bulan tersebut.
+          </p>
+        </div>
+
+        <div class="py-3">
+          <button
+            type="button"
+            @click="activeFaq = activeFaq === 1 ? null : 1"
+            class="flex w-full items-center justify-between text-left text-sm font-semibold text-slate-800"
+          >
+            <span>Adakah dividen ASB dikenakan cukai pendapatan?</span>
+            <span class="text-emerald-600" x-text="activeFaq === 1 ? '−' : '+'"></span>
+          </button>
+          <p x-show="activeFaq === 1" x-transition class="mt-2 text-xs leading-relaxed text-slate-600">
+            Tidak. Semua pengagihan pendapatan (dividen dan bonus) daripada ASB dikecualikan daripada cukai pendapatan individu di Malaysia.
+          </p>
+        </div>
+
+        <div class="py-3">
+          <button
+            type="button"
+            @click="activeFaq = activeFaq === 2 ? null : 2"
+            class="flex w-full items-center justify-between text-left text-sm font-semibold text-slate-800"
+          >
+            <span>Kenapa kuasa kompaun penting dalam ASB?</span>
+            <span class="text-emerald-600" x-text="activeFaq === 2 ? '−' : '+'"></span>
+          </button>
+          <p x-show="activeFaq === 2" x-transition class="mt-2 text-xs leading-relaxed text-slate-600">
+            Apabila anda tidak mengeluarkan dividen tahunan, dividen tersebut akan menjadi sebahagian daripada modal tahun berikutnya dan turut menjana dividen baharu. Dalam tempoh 10 hingga 20 tahun, kesan kompaun ini menggandakan jumlah simpanan anda dengan ketara.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Disclaimer Footer -->
+    <footer class="pb-6 text-center text-[11px] leading-relaxed text-slate-500">
+      <p>
+        <strong>Penafian:</strong> KiraASB ialah kalkulator bebas dan tidak rasmi. Ia tidak mempunyai kaitan dengan Amanah Saham Nasional Berhad (ASNB) atau Permodalan Nasional Berhad (PNB). Semua pengiraan adalah anggaran untuk tujuan pendidikan dan perancangan kewangan sahaja.
+      </p>
+    </footer>
+  </main>
+
+  <!-- Mobile Bottom App Navigation -->
+  <nav class="mobile-bottom-nav fixed bottom-0 left-0 right-0 z-30 border-t border-slate-200 bg-white/95 backdrop-blur-md md:hidden">
+    <div class="mx-auto grid max-w-md grid-cols-4 text-center text-[11px] font-semibold text-slate-600">
+      <a href="#kalkulator" class="flex flex-col items-center py-2.5 hover:text-emerald-600">
+        <span x-text="t('navCalc')"></span>
+      </a>
+      <a href="#carta" class="flex flex-col items-center py-2.5 hover:text-emerald-600">
+        <span x-text="t('navChart')"></span>
+      </a>
+      <a href="#jadual" class="flex flex-col items-center py-2.5 hover:text-emerald-600">
+        <span x-text="t('navTable')"></span>
+      </a>
+      <a href="#soalan" class="flex flex-col items-center py-2.5 hover:text-emerald-600">
+        <span x-text="t('navFaq')"></span>
+      </a>
+    </div>
+  </nav>
+</body>
+</html>
