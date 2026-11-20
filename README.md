@@ -47,7 +47,7 @@ Kemudian buka `http://localhost:8080` (atau port yang dipaparkan) di pelayar and
 
 ## Langkah ke Produksi (*Production Deployment*)
 1. **Kemas kini Domain SEO:**
-   Gantikan `https://kirasb.example.com/` di dalam `robots.txt` dan `sitemap.xml` dengan domain sebenar anda. Tambah juga `<link rel="canonical" href="https://domain-anda.com/" />` dalam `index.html`.
+   Gantikan `https://kirasb.ammrtech.com/` di dalam `robots.txt` dan `sitemap.xml` dengan domain sebenar anda. Tambah juga `<link rel="canonical" href="https://domain-anda.com/" />` dalam `index.html`.
 2. **Gantikan Tailwind Play CDN (Disyorkan untuk Produksi):**
    * Pasang Tailwind CLI secara setempat atau melalui `npx`:
      ```bash
