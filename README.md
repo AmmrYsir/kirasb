@@ -1,64 +1,48 @@
 # KiraASB
 
-**KiraASB** ialah kalkulator simpanan dan anggaran dividen **Amanah Saham Bumiputera (ASB)** yang ringan, mesra SEO, dan direka dengan pengalaman seakan aplikasi mudah alih (*mobile-app feel*).
+**KiraASB** ialah kalkulator simpanan dan anggaran dividen **Amanah Saham Bumiputera (ASB)** — ringan, pantas, dwibahasa (BM/EN) dan berasa seperti aplikasi mudah alih.
 
-## Ciri-ciri Utama
-- **Pengiraan Masa Nyata:** Anggaran baki akhir, jumlah modal, jumlah dividen, dan dividen tahun pertama berdasarkan Baki Minimum Bulanan.
-- **Format Nombor Langsung:** Input RM diformat secara langsung dengan tanda koma (cth: `250,000`) dan papan kekunci angka pada peranti mudah alih.
-- **Pilihan Kompaun:** Togol untuk mengira kesan kompaun tahunan berbanding pengeluaran dividen setiap tahun.
-- **Carta Interaktif & Jadual Tahunan:** Graf bar bertindih (*Chart.js*) dan pecahan tahun demi tahun.
-- **Dwibahasa (BM / EN):** Tukar bahasa antara Bahasa Melayu dan English dengan simpanan automatik dalam `localStorage`.
-- **Kongsi Pautan:** Pautan URL boleh kongsi yang mengekalkan nilai pengiraan anda.
-- **Mesra SEO & PWA:** Dilengkapi meta Open Graph, JSON-LD (`WebApplication` + `FAQPage`), `robots.txt`, `sitemap.xml`, `manifest.json`, dan Service Worker (`sw.js`).
+## Ciri-ciri
+- Anggaran baki akhir, jumlah modal, jumlah dividen dan dividen tahun pertama (berdasarkan Baki Minimum Bulanan).
+- Input RM berformat langsung + slider + kadar pantas (4.25 / 5.25 / 5.75 / 6.50%).
+- Togol kompaun dividen tahunan.
+- Carta bar bertindih (SVG sendiri) dan jadual pecahan tahunan.
+- Tema cerah / gelap (ikut sistem, boleh ditukar).
+- BM / EN, tetapan disimpan dalam `localStorage`.
+- Pautan kongsi yang mengekalkan nilai pengiraan.
+- PWA + Service Worker (luar talian), SEO (Open Graph, JSON-LD).
 
 ## Teknologi
-- **HTML5 Semantik**
-- **Alpine.js** (CDN)
-- **Tailwind CSS** (Play CDN) + `css/styles.css`
-- **Chart.js** (CDN)
+HTML, CSS dan JavaScript biasa — **tiada framework, tiada CDN, tiada langkah build**. Semua fail dihidangkan terus dari domain anda.
 
-## Struktur Fail
+## Struktur
 ```text
 kirasb/
-├── index.html       # Halaman utama, SEO & komponen kalkulator
-├── css/
-│   └── styles.css   # Gaya slider, 100dvh, mobile safe-area & input
-├── js/
-│   └── app.js       # Logik pengiraan ASB, i18n (BM/EN), carta & format input
-├── manifest.json    # Konfigurasi PWA
-├── sw.js            # Service Worker untuk sokongan luar talian
-├── robots.txt       # Arahan enjin carian
-├── sitemap.xml      # Peta laman SEO
-└── .gitignore       # Fail yang diabaikan oleh Git
+├── index.html
+├── css/styles.css
+├── js/i18n.js        # Terjemahan BM/EN
+├── js/app.js         # Logik, carta & UI
+├── icons/icon.svg
+├── manifest.json     # PWA
+├── sw.js             # Service Worker
+├── _headers          # Header keselamatan & cache (Cloudflare Pages / Netlify)
+├── robots.txt
+└── sitemap.xml
 ```
 
-## Cara Jalankan Secara Tempatan
-Disebabkan projek ini menggunakan Service Worker (`sw.js`), buka melalui pelayan HTTP tempatan (bukan `file://`):
-
+## Jalankan secara tempatan
 ```bash
-# Menggunakan Node.js
 npx serve .
-
-# Atau menggunakan Python
+# atau
 python -m http.server 8080
 ```
 
-Kemudian buka `http://localhost:8080` (atau port yang dipaparkan) di pelayar anda.
+## Deploy ke Cloudflare Pages
+- Framework preset: `None`
+- Build command: *(kosong)*
+- Build output directory: `.`
 
-## Langkah ke Produksi (*Production Deployment*)
-1. **Kemas kini Domain SEO:**
-   Gantikan `https://kirasb.ammrtech.com/` di dalam `robots.txt` dan `sitemap.xml` dengan domain sebenar anda. Tambah juga `<link rel="canonical" href="https://domain-anda.com/" />` dalam `index.html`.
-2. **Gantikan Tailwind Play CDN (Disyorkan untuk Produksi):**
-   * Pasang Tailwind CLI secara setempat atau melalui `npx`:
-     ```bash
-     npx tailwindcss -i ./css/styles.css -o ./css/tailwind.min.css --minify
-     ```
-   * Buang `<script src="https://cdn.tailwindcss.com" ...></script>` dalam `index.html` dan pautkan `./css/tailwind.min.css`.
-3. **Muat Naik ke Hos Statik (Percuma):**
-   * **GitHub Pages:** Pergi ke *Settings → Pages*, pilih branch `main` dan folder `/ (root)`.
-   * **Cloudflare Pages / Vercel / Netlify:** Sambungkan repositori GitHub ini, biarkan *Build Command* kosong, dan tetapkan *Output Directory* kepada `.` (root).
-4. **Sahkan HTTPS & PWA:**
-   Pastikan laman diakses melalui **HTTPS** supaya Service Worker (`sw.js`), ciri *Add to Home Screen* (PWA), dan `navigator.share` berfungsi dengan sempurna.
+Selepas dapat domain: gantikan `https://kirasb.example.com/` dalam `robots.txt` dan `sitemap.xml`, dan tambah `<link rel="canonical">` dalam `index.html`.
 
 ## Penafian
-KiraASB ialah kalkulator bebas dan tidak rasmi. Ia tidak mempunyai kaitan dengan **Amanah Saham Nasional Berhad (ASNB)** atau **Permodalan Nasional Berhad (PNB)**. Semua pengiraan adalah anggaran untuk tujuan pendidikan dan perancangan kewangan sahaja.
+KiraASB ialah kalkulator bebas dan tidak rasmi, tiada kaitan dengan ASNB atau PNB. Semua pengiraan hanyalah anggaran untuk tujuan pendidikan.
