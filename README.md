@@ -7,7 +7,7 @@
 - Input RM berformat langsung + slider + kadar pantas (4.25 / 5.25 / 5.75 / 6.50%).
 - Togol kompaun dividen tahunan.
 - Carta bar bertindih (SVG sendiri) dan jadual pecahan tahunan.
-- Tema cerah / gelap (ikut sistem, boleh ditukar).
+- Reka bentuk moden mod cerah (indigo + lime di atas latar kertas hangat).
 - BM / EN, tetapan disimpan dalam `localStorage`.
 - Pautan kongsi yang mengekalkan nilai pengiraan.
 - PWA + Service Worker (luar talian), SEO (Open Graph, JSON-LD).

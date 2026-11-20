@@ -10,7 +10,7 @@
   var COLLAPSED_ROWS = 5;
 
   var $ = function (id) { return document.getElementById(id); };
-  var state = Object.assign({ lang: 'ms', theme: null, showAll: false }, DEFAULTS);
+  var state = Object.assign({ lang: 'ms', showAll: false }, DEFAULTS);
   var selectedYear = null;
 
   /* ---------- helpers ---------- */
@@ -26,7 +26,6 @@
     s.years = Math.round(clamp(s.years, LIMITS.years[0], LIMITS.years[1], DEFAULTS.years));
     s.reinvest = Boolean(s.reinvest);
     if (s.lang !== 'ms' && s.lang !== 'en') s.lang = 'ms';
-    if (s.theme !== 'light' && s.theme !== 'dark') s.theme = null;
   }
   function t(key) { return (I18N[state.lang] && I18N[state.lang][key]) || I18N.ms[key] || key; }
   function fill(str, vars) {
@@ -78,7 +77,7 @@
   function save() {
     try {
       localStorage.setItem(STORE, JSON.stringify({
-        lang: state.lang, theme: state.theme, initial: state.initial, monthly: state.monthly,
+        lang: state.lang, initial: state.initial, monthly: state.monthly,
         rate: state.rate, years: state.years, reinvest: state.reinvest
       }));
     } catch (e) { /* storage unavailable */ }
@@ -278,13 +277,6 @@
       update();
     });
     $('langBtn').addEventListener('click', function () { state.lang = state.lang === 'ms' ? 'en' : 'ms'; applyI18n(); update(); });
-    $('themeBtn').addEventListener('click', function () {
-      var cur = document.documentElement.dataset.theme ||
-        (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      state.theme = cur === 'dark' ? 'light' : 'dark';
-      document.documentElement.dataset.theme = state.theme;
-      save();
-    });
     $('shareBtn').addEventListener('click', share);
 
     var chart = $('chart');

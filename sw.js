@@ -1,6 +1,6 @@
 // KiraASB service worker — offline support.
 // Navigations/HTML: network-first (always fresh when online). Static assets: stale-while-revalidate.
-const CACHE = 'kirasb-v5';
+const CACHE = 'kirasb-v6';
 const ASSETS = [
   './',
   './index.html',
