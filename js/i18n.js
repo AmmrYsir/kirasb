@@ -52,6 +52,7 @@ window.KIRA_I18N = {
     ],
 
     disclaimer: '<strong>Penafian:</strong> KiraASB ialah kalkulator bebas dan tidak rasmi. Ia tidak mempunyai kaitan dengan Amanah Saham Nasional Berhad (ASNB) atau Permodalan Nasional Berhad (PNB). Semua pengiraan adalah anggaran untuk tujuan pendidikan dan perancangan kewangan sahaja.',
+    privacyLink: 'Dasar Privasi (Web & Android)',
     shareText: 'Anggaran baki ASB selepas {n} tahun: {v}'
   },
 
@@ -107,6 +108,7 @@ window.KIRA_I18N = {
     ],
 
     disclaimer: '<strong>Disclaimer:</strong> KiraASB is an independent, unofficial calculator. It is not affiliated with Amanah Saham Nasional Berhad (ASNB) or Permodalan Nasional Berhad (PNB). All calculations are estimates for educational and financial planning purposes only.',
+    privacyLink: 'Privacy Policy (Web & Android)',
     shareText: 'Estimated ASB balance after {n} years: {v}'
   }
 };

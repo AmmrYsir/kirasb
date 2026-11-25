@@ -209,6 +209,55 @@ td.b { font-weight: 800; letter-spacing: -.01em; }
 .faq strong { color: var(--ink); }
 
 .footer { color: var(--muted); font-size: .76rem; text-align: center; padding: 12px 8px 0; max-width: 70ch; margin-inline: auto; position: relative; z-index: 1; }
+.footer__links { margin-top: 10px; display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+.footer__links a { color: var(--ink-2); font-weight: 650; text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 1px; transition: color .15s, border-color .15s; }
+.footer__links a:hover { color: var(--accent); border-color: var(--accent); }
+
+/* Privacy & prose pages */
+.chipbtn--link { text-decoration: none; }
+.hero--compact { padding: 36px 0 24px; }
+.hero--compact h1 { max-width: 16ch; font-size: clamp(2.1rem, 7vw, 3.6rem); }
+.privacy-meta { margin-top: 12px; font-size: .84rem; color: var(--muted); font-weight: 600; }
+
+.privacy-summary {
+  position: relative; overflow: hidden; border-radius: var(--r-lg); padding: 24px 26px; margin-bottom: 16px; color: #fff;
+  background: linear-gradient(160deg, #1a1a2e 0%, #12121a 55%, #1b1440 100%);
+  box-shadow: 0 24px 50px -20px rgb(40 30 120 / .4), 0 2px 6px rgb(18 18 26 / .18);
+  z-index: 1;
+}
+.privacy-summary > *:not(.result__glow) { position: relative; }
+.privacy-summary h2 { font-size: 1.1rem; font-weight: 750; letter-spacing: -.02em; margin-top: 8px; }
+.privacy-summary p { color: rgb(255 255 255 / .78); font-size: .92rem; margin-top: 6px; max-width: 62ch; }
+.privacy-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; list-style: none; padding: 0; }
+.privacy-pills li {
+  display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px; border-radius: 999px;
+  background: rgb(255 255 255 / .09); border: 1px solid rgb(255 255 255 / .12);
+  font-size: .78rem; font-weight: 650; color: #fff;
+}
+.privacy-pills li::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--lime); flex: none; }
+
+.platform-grid { display: grid; gap: 14px; margin-bottom: 16px; position: relative; z-index: 1; }
+@media (min-width: 720px) { .platform-grid { grid-template-columns: 1fr 1fr; } }
+.platform-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow); padding: 22px 24px; }
+.platform-card__tag {
+  display: inline-block; padding: 4px 11px; border-radius: 999px; background: var(--accent-soft); color: var(--accent);
+  font-size: .72rem; font-weight: 750; letter-spacing: .04em; text-transform: uppercase;
+}
+.platform-card h2 { font-size: 1.1rem; font-weight: 750; letter-spacing: -.02em; margin-top: 10px; }
+.platform-card p { color: var(--ink-2); font-size: .9rem; margin-top: 6px; }
+
+.prose { padding: 28px; }
+@media (max-width: 480px) { .prose { padding: 22px 18px; } }
+.prose h2 { font-size: 1.12rem; font-weight: 750; letter-spacing: -.02em; margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--line); }
+.prose h2:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+.prose h3 { font-size: .95rem; font-weight: 700; color: var(--ink); margin-top: 16px; }
+.prose p { color: var(--ink-2); font-size: .93rem; margin-top: 8px; max-width: 68ch; }
+.prose ul { margin: 10px 0 0; padding-left: 20px; color: var(--ink-2); font-size: .93rem; max-width: 68ch; }
+.prose li + li { margin-top: 6px; }
+.prose strong { color: var(--ink); }
+.prose code { background: var(--field); padding: 2px 6px; border-radius: 6px; font-size: .84em; color: var(--ink); }
+.prose a { color: var(--accent); font-weight: 650; text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); }
+.prose a:hover { border-bottom-color: var(--accent); }
 
 /* Toast */
 .toast { position: fixed; left: 50%; bottom: calc(24px + var(--safe-b)); transform: translateX(-50%); background: var(--ink); color: #fff; padding: 12px 20px; border-radius: 999px; font-size: .85rem; font-weight: 650; box-shadow: 0 12px 30px -8px rgb(18 18 26 / .5); z-index: 60; animation: pop .25s ease; }

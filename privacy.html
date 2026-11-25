@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>KiraASB — Privacy Policy (Web &amp; Android)</title>
+  <meta name="description" content="Privacy Policy for KiraASB Web and KiraASB Android App. Zero personal data collection, no ads, no trackers, and local-only storage." />
+  <meta name="referrer" content="no-referrer" />
+  <meta name="color-scheme" content="light" />
+  <meta name="theme-color" content="#f6f5f1" />
+  <link rel="icon" type="image/svg+xml" href="./icons/icon.svg" />
+  <link rel="apple-touch-icon" href="./icons/icon.svg" />
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+  <div class="bg" aria-hidden="true"><i class="bg__a"></i><i class="bg__b"></i></div>
+  <a class="skip" href="#main" id="skipLink">Skip to content</a>
+
+  <header class="nav">
+    <div class="nav__pill">
+      <a class="brand" href="./" aria-label="KiraASB">
+        <img src="./icons/icon.svg" alt="" width="30" height="30" />
+        <strong>Kira<span>ASB</span></strong>
+      </a>
+      <div class="nav__actions">
+        <button class="chipbtn" id="langBtn" type="button" aria-label="Switch language">BM</button>
+        <a class="chipbtn chipbtn--dark chipbtn--link" id="backBtn" href="./">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+          <span id="backLabel">Calculator</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <!-- ENGLISH -->
+    <div data-lang="en">
+      <section class="hero hero--compact">
+        <p class="badge"><i></i><span>Web &amp; Android App</span></p>
+        <h1>Privacy Policy</h1>
+        <p class="hero__sub">KiraASB is built to run privately on your device — whether you use the web calculator or the free Android app.</p>
+        <p class="privacy-meta">Effective Date: November 26, 2026 &middot; Developer: AMMR TECH</p>
+      </section>
+
+      <section class="privacy-summary" aria-labelledby="summaryEnTitle">
+        <div class="result__glow" aria-hidden="true"></div>
+        <p class="eyebrow">At a Glance</p>
+        <h2 id="summaryEnTitle">Your savings numbers never leave your device</h2>
+        <p>KiraASB does not collect, transmit, sell, or share any personal information, financial inputs, analytics, or device identifiers.</p>
+        <ul class="privacy-pills">
+          <li>No account required</li>
+          <li>No ads or trackers</li>
+          <li>Works offline</li>
+          <li>Local-only storage</li>
+        </ul>
+      </section>
+
+      <div class="platform-grid">
+        <article class="platform-card">
+          <span class="platform-card__tag">Web &amp; PWA</span>
+          <h2>KiraASB Web</h2>
+          <p>Runs in your browser with offline Service Worker caching. Inputs and language preferences are saved only in your browser's <code>localStorage</code>.</p>
+        </article>
+        <article class="platform-card">
+          <span class="platform-card__tag">Android</span>
+          <h2>KiraASB Android App</h2>
+          <p>Free offline mobile app built on KiraASB. All calculation inputs and preferences stay strictly on your Android device.</p>
+        </article>
+      </div>
+
+      <article class="card prose">
+        <h2>1. Scope of This Notice</h2>
+        <p>This Privacy Policy applies to both the <strong>KiraASB</strong> web application (including its installable Progressive Web App) and the free <strong>KiraASB</strong> Android application, both developed and maintained by <strong>AMMR TECH</strong>.</p>
+
+        <h2>2. Information We Do Not Collect</h2>
+        <p>KiraASB does <strong>not</strong> collect, store on external servers, transmit, or share:</p>
+        <ul>
+          <li>Personal identity details (such as name, email address, phone number, or MyKad/IC number).</li>
+          <li>Financial data (your ASB balance, monthly savings, dividend rates, or calculation results).</li>
+          <li>Usage analytics, behavioral telemetry, crash reports, or advertising IDs.</li>
+          <li>Location data, contacts, camera, microphone, or background device identifiers.</li>
+        </ul>
+
+        <h2>3. Local Storage &amp; Offline Operation</h2>
+        <h3>KiraASB Web</h3>
+        <p>To remember your last calculation inputs and language choice (Bahasa Melayu or English), KiraASB Web stores a small state object locally in your browser's <code>localStorage</code> (<code>kirasb_state</code>). A Service Worker caches static application files on your device so the calculator works offline. You can clear this data at any time through your browser settings. No tracking cookies are used.</p>
+        <h3>KiraASB Android App</h3>
+        <p>The Android app performs all calculations locally on your device. Your inputs and language preferences are saved only in local app storage on your phone and are removed if you clear app data or uninstall the app.</p>
+
+        <h2>4. Share Functionality</h2>
+        <p>Both platforms include an optional <strong>Share</strong> feature that works only when you explicitly tap it:</p>
+        <ul>
+          <li><strong>Web:</strong> Generates a link containing your non-personal calculation parameters (initial amount, monthly top-up, rate, duration, and compounding toggle) in the URL query string and opens your browser's native share sheet or copies the link to your clipboard.</li>
+          <li><strong>Android:</strong> Uses Android's native share sheet so you can share your summary text to an app of your choice. No data is sent to AMMR TECH.</li>
+        </ul>
+
+        <h2>5. Third-Party Services &amp; Infrastructure</h2>
+        <p>Neither KiraASB Web nor the KiraASB Android app includes advertisements, third-party analytics SDKs, or social media tracking pixels.</p>
+        <p>When accessing KiraASB Web over the internet, standard web hosting infrastructure (such as Cloudflare Pages) processes transient network requests solely to deliver the static HTML, CSS, and JavaScript files. KiraASB sets a strict <code>no-referrer</code> policy. If you download the Android app via Google Play, Google Play Services handles app distribution and updates under Google's own Privacy Policy.</p>
+
+        <h2>6. Children's Privacy</h2>
+        <p>Because KiraASB does not collect personal data from any user, we do not knowingly collect personal information from children under 13 (or the applicable age in your jurisdiction).</p>
+
+        <h2>7. Disclaimer</h2>
+        <p>KiraASB is an independent, unofficial calculator and has no affiliation with <strong>Amanah Saham Nasional Berhad (ASNB)</strong> or <strong>Permodalan Nasional Berhad (PNB)</strong>. All figures are estimates for educational and personal financial planning purposes only.</p>
+
+        <h2>8. Changes &amp; Contact</h2>
+        <p>If this Privacy Policy is updated in the future, the revised version and effective date will be published on this page. If you have any questions about privacy in KiraASB Web or Android, please contact <a href="mailto:ammaryasir03062000@gmail.com">ammaryasir03062000@gmail.com</a>.</p>
+      </article>
+    </div>
+
+    <!-- BAHASA MELAYU -->
+    <div data-lang="ms" lang="ms" hidden>
+      <section class="hero hero--compact">
+        <p class="badge"><i></i><span>Web &amp; Aplikasi Android</span></p>
+        <h1>Dasar Privasi</h1>
+        <p class="hero__sub">KiraASB direka untuk beroperasi secara peribadi di peranti anda — sama ada anda menggunakan kalkulator web atau aplikasi Android percuma.</p>
+        <p class="privacy-meta">Tarikh Kuat Kuasa: 26 November 2026 &middot; Pembangun: AMMR TECH</p>
+      </section>
+
+      <section class="privacy-summary" aria-labelledby="summaryMsTitle">
+        <div class="result__glow" aria-hidden="true"></div>
+        <p class="eyebrow">Ringkasan</p>
+        <h2 id="summaryMsTitle">Angka simpanan anda tidak pernah keluar dari peranti anda</h2>
+        <p>KiraASB tidak mengumpul, menghantar, menjual, atau berkongsi sebarang maklumat peribadi, data kewangan, analitik, atau pengecam peranti.</p>
+        <ul class="privacy-pills">
+          <li>Tiada akaun diperlukan</li>
+          <li>Tiada iklan atau penjejak</li>
+          <li>Berfungsi luar talian</li>
+          <li>Storan tempatan sahaja</li>
+        </ul>
+      </section>
+
+      <div class="platform-grid">
+        <article class="platform-card">
+          <span class="platform-card__tag">Web &amp; PWA</span>
+          <h2>KiraASB Web</h2>
+          <p>Berjalan dalam pelayar anda dengan cache Service Worker luar talian. Input dan pilihan bahasa disimpan hanya dalam <code>localStorage</code> pelayar anda.</p>
+        </article>
+        <article class="platform-card">
+          <span class="platform-card__tag">Android</span>
+          <h2>Aplikasi Android KiraASB</h2>
+          <p>Aplikasi mudah alih luar talian percuma berasaskan KiraASB. Semua input pengiraan dan tetapan kekal sepenuhnya di peranti Android anda.</p>
+        </article>
+      </div>
+
+      <article class="card prose">
+        <h2>1. Skop Notis Ini</h2>
+        <p>Dasar Privasi ini terpakai kepada kedua-dua aplikasi web <strong>KiraASB</strong> (termasuk Progressive Web App) dan aplikasi Android percuma <strong>KiraASB</strong>, yang dibangunkan dan diselenggara oleh <strong>AMMR TECH</strong>.</p>
+
+        <h2>2. Maklumat Yang Tidak Kami Kumpul</h2>
+        <p>KiraASB <strong>tidak</strong> mengumpul, menyimpan di pelayan luar, menghantar, atau berkongsi:</p>
+        <ul>
+          <li>Butiran identiti peribadi (seperti nama, alamat e-mel, nombor telefon, atau nombor MyKad).</li>
+          <li>Data kewangan (baki ASB, simpanan bulanan, kadar dividen, atau hasil pengiraan anda).</li>
+          <li>Analitik penggunaan, telemetri tingkah laku, laporan ranap, atau ID pengiklanan.</li>
+          <li>Data lokasi, kenalan, kamera, mikrofon, atau pengecam peranti di latar belakang.</li>
+        </ul>
+
+        <h2>3. Storan Tempatan &amp; Operasi Luar Talian</h2>
+        <h3>KiraASB Web</h3>
+        <p>Untuk mengingati input pengiraan terakhir dan pilihan bahasa anda (Bahasa Melayu atau Inggeris), KiraASB Web menyimpan objek keadaan ringkas secara tempatan dalam <code>localStorage</code> pelayar anda (<code>kirasb_state</code>). Service Worker menyimpan fail aplikasi statik di peranti anda supaya kalkulator berfungsi tanpa internet. Anda boleh memadam data ini bila-bila masa melalui tetapan pelayar. Tiada kuki penjejakan digunakan.</p>
+        <h3>Aplikasi Android KiraASB</h3>
+        <p>Aplikasi Android melakukan semua pengiraan secara tempatan pada peranti anda. Input dan pilihan bahasa anda hanya disimpan dalam storan tempatan aplikasi pada telefon anda dan akan dipadamkan apabila anda mengosongkan data aplikasi atau menyahpasangnya.</p>
+
+        <h2>4. Fungsi Kongsi</h2>
+        <p>Kedua-dua platform menyediakan fungsi <strong>Kongsi</strong> pilihan yang hanya bertindak apabila anda menekannya:</p>
+        <ul>
+          <li><strong>Web:</strong> Menjana pautan yang mengandungi parameter pengiraan bukan peribadi anda (simpanan awal, bulanan, kadar, tempoh, dan kompaun) dalam rentetan pertanyaan URL dan membuka menu kongsi pelayar atau menyalin pautan ke papan keratan.</li>
+          <li><strong>Android:</strong> Menggunakan menu kongsi asli Android supaya anda boleh berkongsi teks ringkasan ke aplikasi pilihan anda. Tiada data dihantar kepada AMMR TECH.</li>
+        </ul>
+
+        <h2>5. Perkhidmatan Pihak Ketiga &amp; Infrastruktur</h2>
+        <p>KiraASB Web dan aplikasi Android KiraASB tidak mengandungi iklan, SDK analitik pihak ketiga, atau piksel penjejakan media sosial.</p>
+        <p>Apabila mengakses KiraASB Web melalui internet, infrastruktur pengehosan web standard (seperti Cloudflare Pages) memproses permintaan rangkaian sementara semata-mata untuk menghantar fail statik HTML, CSS, dan JavaScript. KiraASB menetapkan dasar <code>no-referrer</code> yang ketat. Jika anda memuat turun aplikasi Android melalui Google Play, Google Play Services menguruskan pengedaran dan kemas kini aplikasi di bawah Dasar Privasi Google.</p>
+
+        <h2>6. Privasi Kanak-kanak</h2>
+        <p>Oleh kerana KiraASB tidak mengumpul data peribadi daripada mana-mana pengguna, kami tidak mengumpul maklumat peribadi daripada kanak-kanak di bawah umur 13 tahun secara sedar.</p>
+
+        <h2>7. Penafian</h2>
+        <p>KiraASB ialah kalkulator bebas dan tidak rasmi, serta tidak mempunyai sebarang kaitan dengan <strong>Amanah Saham Nasional Berhad (ASNB)</strong> atau <strong>Permodalan Nasional Berhad (PNB)</strong>. Semua angka hanyalah anggaran untuk tujuan pendidikan dan perancangan kewangan peribadi sahaja.</p>
+
+        <h2>8. Perubahan &amp; Hubungi Kami</h2>
+        <p>Jika Dasar Privasi ini dikemas kini pada masa hadapan, versi semakan dan tarikh kuat kuasa akan diterbitkan di halaman ini. Jika anda mempunyai sebarang soalan mengenai privasi dalam KiraASB Web atau Android, sila hubungi <a href="mailto:ammaryasir03062000@gmail.com">ammaryasir03062000@gmail.com</a>.</p>
+      </article>
+    </div>
+
+    <footer class="footer">
+      <p id="footerNote">KiraASB &middot; Independent ASB savings &amp; dividend estimator by AMMR TECH.</p>
+      <p class="footer__links"><a href="./" id="footerHome">Back to Calculator</a></p>
+    </footer>
+  </main>
+
+  <script src="./js/privacy.js"></script>
+</body>
+</html>
