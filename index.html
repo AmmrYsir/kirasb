@@ -14,7 +14,8 @@
   <meta property="og:title" content="KiraASB — Kalkulator Dividen &amp; Simpanan ASB" />
   <meta property="og:description" content="Kira anggaran dividen dan kuasa kompaun simpanan ASB anda secara masa nyata." />
   <meta property="og:locale" content="ms_MY" />
-  <!-- TODO: add <link rel="canonical"> and og:url once the final domain is known -->
+  <meta property="og:url" content="https://kirasb.ammrtech.com/" />
+  <link rel="canonical" href="https://kirasb.ammrtech.com/" />
 
   <link rel="manifest" href="./manifest.json" />
   <link rel="icon" type="image/svg+xml" href="./icons/icon.svg" />
@@ -75,16 +76,16 @@
 
   <main id="main" class="wrap">
     <section class="hero">
-      <p class="badge"><i></i><span data-i18n="tagline"></span></p>
-      <h1 data-i18n="heroTitle"></h1>
-      <p class="hero__sub" data-i18n="heroSub"></p>
+      <p class="badge"><i></i><span data-i18n="tagline">Kalkulator Simpanan &amp; Dividen ASB</span></p>
+      <h1 data-i18n="heroTitle">Rancang simpanan ASB anda.</h1>
+      <p class="hero__sub" data-i18n="heroSub">Anggar baki akhir, dividen dan kuasa kompaun — terus di telefon anda.</p>
     </section>
 
     <div class="layout">
       <!-- INPUTS -->
       <section class="card inputs" aria-labelledby="inputsTitle">
         <div class="card__head">
-          <h2 id="inputsTitle" data-i18n="inputsTitle"></h2>
+          <h2 id="inputsTitle" data-i18n="inputsTitle">Maklumat Simpanan</h2>
           <button class="link" id="resetBtn" type="button" data-i18n="reset"></button>
         </div>
 
@@ -129,7 +130,7 @@
       <section class="result" aria-live="polite" aria-labelledby="resultTitle">
         <div class="result__glow" aria-hidden="true"></div>
         <div class="result__head">
-          <h2 id="resultTitle" class="eyebrow" data-i18n="resultTitle"></h2>
+          <h2 id="resultTitle" class="eyebrow" data-i18n="resultTitle">Anggaran Baki Akhir</h2>
           <span class="chip" id="growthChip"></span>
         </div>
         <p class="result__value" id="finalBalance">RM 0.00</p>
@@ -155,7 +156,7 @@
     <!-- CHART -->
     <section class="card" aria-labelledby="chartTitle">
       <div class="card__head">
-        <h2 id="chartTitle" data-i18n="chartTitle"></h2>
+        <h2 id="chartTitle" data-i18n="chartTitle">Unjuran Pertumbuhan</h2>
         <div class="legend legend--inline">
           <span><i class="dot dot--p"></i><span data-i18n="legendPrincipal"></span></span>
           <span><i class="dot dot--d"></i><span data-i18n="legendDividend"></span></span>
@@ -169,7 +170,7 @@
     <!-- TABLE -->
     <section class="card" aria-labelledby="tableTitle">
       <div class="card__head">
-        <h2 id="tableTitle" data-i18n="tableTitle"></h2>
+        <h2 id="tableTitle" data-i18n="tableTitle">Pecahan Tahunan</h2>
         <button class="link" id="toggleRows" type="button" hidden></button>
       </div>
       <div class="tablewrap">
@@ -189,7 +190,7 @@
 
     <!-- FAQ -->
     <section class="card" aria-labelledby="faqTitle">
-      <div class="card__head"><h2 id="faqTitle" data-i18n="faqTitle"></h2></div>
+      <div class="card__head"><h2 id="faqTitle" data-i18n="faqTitle">Soalan Lazim</h2></div>
       <div id="faq" class="faq"></div>
     </section>
 
